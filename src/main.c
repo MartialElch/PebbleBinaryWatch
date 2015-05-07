@@ -65,6 +65,7 @@ void update_proc(Layer *layer, GContext *ctx) {
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
+  // callback update_proc is executed when layer is marked dirty
   layer_mark_dirty(s_main_layer);
 }
 
@@ -73,6 +74,7 @@ static void main_window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(s_main_window);
   GRect bounds = layer_get_bounds(window_layer);
   s_main_layer = layer_create((GRect) { .origin = { 0, 0 }, .size = { bounds.size.w, bounds.size.h } });
+  // register callback to execute when layer ist marked dirty
   layer_set_update_proc(s_main_layer, update_proc);
   layer_add_child(window_get_root_layer(window), s_main_layer);
 }
