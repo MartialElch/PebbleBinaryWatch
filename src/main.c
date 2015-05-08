@@ -99,10 +99,12 @@ static void init() {
   // Register with TickTimerService
   tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 }
+
 static void deinit() {
   // Destroy Window
   window_destroy(s_main_window);
 }
+
 int main(void) {
   init();
   app_event_loop();
