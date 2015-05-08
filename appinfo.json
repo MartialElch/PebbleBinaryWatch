@@ -3,11 +3,18 @@
     "capabilities": [
         ""
     ],
-    "companyName": "stefan.reimbold@imail.de",
+    "companyName": "MartialElch",
     "longName": "Binary Watch",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "file": "images/menu.png",
+                "menuIcon": true,
+                "name": "IMAGE_MAIN_MENU",
+                "type": "png"
+            }
+        ]
     },
     "sdkVersion": "2",
     "shortName": "Binary Watch",

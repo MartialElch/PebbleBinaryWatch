@@ -15,10 +15,9 @@ void draw_circle(int x, int y, int r, int fill, GContext *ctx) {
 
 void draw_binary_number(int n, int x, int y, int N, GContext *ctx) {
   int m;
-
   int RADIUS = 10;
   int SPACE = 5;
-  
+
   // draw binary number using N circles side by side
   // filled circle = 1; empty circle = 0
   for (int i=0; i<N; i++) {
@@ -29,7 +28,6 @@ void draw_binary_number(int n, int x, int y, int N, GContext *ctx) {
 
 void draw_binary_batt(int n, int x, int y, int N, GContext *ctx) {
   int m;
-
   int RADIUS = 8;
   int SPACE = 4;
 
@@ -43,9 +41,9 @@ void draw_binary_batt(int n, int x, int y, int N, GContext *ctx) {
 
 // update process used as call back when layer is marked dirty
 void update_proc(Layer *layer, GContext *ctx) {
-  time_t temp = time(NULL); 
+  time_t temp = time(NULL);
   struct tm* time = localtime(&temp);
-
+  
   graphics_context_set_stroke_color(ctx, GColorBlack);
   graphics_context_set_fill_color(ctx, GColorBlack);
 
@@ -58,7 +56,6 @@ void update_proc(Layer *layer, GContext *ctx) {
   // draw hours
   draw_binary_number(time->tm_hour%10, 36, 146, 4, ctx);
   draw_binary_number((int)time->tm_hour/10, 12, 146, 2, ctx);
-
   // draw battery
   BatteryChargeState battery_state = battery_state_service_peek();
   draw_binary_batt((int)battery_state.charge_percent, 132, 20, 7, ctx);
@@ -74,6 +71,7 @@ static void main_window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(s_main_window);
   GRect bounds = layer_get_bounds(window_layer);
   s_main_layer = layer_create((GRect) { .origin = { 0, 0 }, .size = { bounds.size.w, bounds.size.h } });
+
   // register callback to execute when layer ist marked dirty
   layer_set_update_proc(s_main_layer, update_proc);
   layer_add_child(window_get_root_layer(window), s_main_layer);
@@ -86,7 +84,6 @@ static void main_window_unload(Window *window) {
 static void init() {
   // Create main Window element and assign to pointer
   s_main_window = window_create();
-
   // Set handlers to manage the elements inside the Window
   window_set_window_handlers(s_main_window, (WindowHandlers) {
     .load = main_window_load,
@@ -94,7 +91,7 @@ static void init() {
   });
 
   // Show the Window on the watch, with animated=true
-  window_stack_push(s_main_window, true); 
+  window_stack_push(s_main_window, true);
 
   // Make sure the time is displayed from the start
   layer_mark_dirty(s_main_layer);
@@ -102,12 +99,10 @@ static void init() {
   // Register with TickTimerService
   tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 }
-
 static void deinit() {
   // Destroy Window
   window_destroy(s_main_window);
 }
-
 int main(void) {
   init();
   app_event_loop();
